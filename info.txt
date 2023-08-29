@@ -1,0 +1,44 @@
+construir imagenes 
+docker-compose -f local.yml build
+
+Correr las instancias de las imagenes (contenedores)
+docker-compose -f local.yml up
+docker-compose -f local.yml ps: para ver los procesos
+
+con eso ya se puede trabajar comprobado hoy 04/09/2022
+
+crear superusuario
+docker-compose -f local.yml run --rm django python manage.py createsuperuser
+
+eliminar django
+docker rm -f ID_DJANGO
+
+Correr solo django:
+docker-compose run --rm --service-ports django
+
+para hacer migraciones
+docker-compose -f local.yml run --rm django python manage.py makemigrations
+
+docker-compose up 
+
+
+*********** script para leer un csv en shell_plus ******
+
+ import csv
+ def import_circles():
+    with open('circles.csv') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        line_count = 0
+        for row in csv_reader:
+    	    circles = Circle(
+                name = row["name"],
+                slug_name = row["slug_name"],
+                is_public = row["is_public"],
+                verified = row["verified"],
+                members_limit = row["members_limit"]
+             )
+             circles.save()
+             name = row["name"]
+             print(f'{name} ha sido creado')
+             line_count += 1
+	print(f'Ha finalizado la carga con un total de {line_count} de registros')
